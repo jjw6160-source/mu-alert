@@ -1,0 +1,25 @@
+name: MU 15m Alert
+
+on:
+  schedule:
+    - cron: '1,16,31,46 * * * *'
+  workflow_dispatch:
+
+jobs:
+  check-mu:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Check MU signal
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: python mu_alert.py
